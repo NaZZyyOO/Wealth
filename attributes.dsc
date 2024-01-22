@@ -5,7 +5,9 @@ stats_calculation_all_slots:
 	script:
 	    - define slots <list[<[player].held_item_slot>|41|37|38|39|40]>
 		- define stats_map <map[GENERIC_ATTACK_DAMAGE=0;GENERIC_ATTACK_SPEED=0;GENERIC_MAX_HEALTH=0;GENERIC_MOVEMENT_SPEED=0;GENERIC_ARMOR=0;GENERIC_ARMOR_TOUGHNESS=0;GENERIC_ATTACK_DAMAGE=0;GENERIC_KNOCKBACK_RESISTANCE=0]>
-		- flag <player> custom_stats_map:<map[GENERIC_DEEPTH_OF_WOUND=0;METALURGIST=0;PRISTINE=0;PHYSICAL_RES=0;FIRE_RES=0;COLD_RES=0;MAGIC_RES=0;LIGHTNING_RES=0;POISON_RES=0;PHYSICAL_DAMAGE=0;FIRE_DAMAGE=0;COLD_DAMAGE=0;MAGIC_DAMAGE=0;LIGHTNING_DAMAGE=0;POISON_DAMAGE=0]>
+		- define custom_stats_map_1 <map[GENERIC_DEEPTH_OF_WOUND=0;METALURGIST=0;PRISTINE=0;PHYSICAL_RES=0;FIRE_RES=0;COLD_RES=0;MAGIC_RES=0;LIGHTNING_RES=0;POISON_RES=0]>
+		- define custom_stats_map_2 <map[PHYSICAL_DAMAGE=0;FIRE_DAMAGE=0;COLD_DAMAGE=0;MAGIC_DAMAGE=0;LIGHTNING_DAMAGE=0;POISON_DAMAGE=0]>
+		- flag <player> custom_stats_map:<[custom_stats_map_1].include[<[custom_stats_map_2]>]>
 		- foreach <[slots]>:
 		  - if <[player].inventory.slot[<[value]>].material.name> = air:
   		    - foreach next
@@ -170,10 +172,11 @@ stats_calculation_event:
 		  - if <[script]> != null:
 		    - if <script[<[old_slot]>].data_key[data]||null> != null:
 		      - if <[script].data_key[data.stats].keys.contains[attribute_modifiers]> = true
-		        - if <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
-		          - run stats_calculation_slot def:<[script]>|exclude|<[item]> save:attributes_old
-			      - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
-			      - flag <player> stats_map:<[attributes_old]>
+		        - if <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
+				  - if <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
+		            - run stats_calculation_slot def:<[script]>|exclude|<[item]> save:attributes_old
+			        - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
+			        - flag <player> stats_map:<[attributes_old]>
 		  - define item <player.inventory.slot[<context.new_slot>]>
 		  - define new_slot <[item].script.name||null>
 		  - define script <script[<[new_slot]>]||null>
