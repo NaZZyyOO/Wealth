@@ -132,9 +132,9 @@ stats_calculation_event:
 		            - run stats_calculation_slot def:<[script]>|<[proc]> save:attributes
 	                - define attributes <entry[attributes].created_queue.determination.get[1]>
 		            - flag <player> stats_map:<[attributes]>
+			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
-		  - run stats_give
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
@@ -253,9 +253,9 @@ stats_calculation_event:
 		        - run stats_calculation_slot def:<[script]>|exclude|<context.item> save:attributes_old
 			    - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
 			    - flag <player> stats_map:<[attributes_old]>
+				- run stats_give
 		  - else:
 		    - stop
-		  - run stats_give
 		on player picks up item:
 		  - ratelimit <player> 1t
 		  - define item_script <context.item.script.name||null>
