@@ -245,7 +245,7 @@ stats_calculation_event:
 		  - define item_script <context.item.script.name||null>
 		  - define script <script[<[item_script]>]||null>
 		  - if <[script]> != null:
-		    - if <script[<[item_script]>].data_key[data]||null> = null:
+		    - if <script[<[item_script]>].data_key[data.stats]||null> = null:
               - stop
 		    - if <[script].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
 		      - if <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
@@ -260,13 +260,13 @@ stats_calculation_event:
 		  - define item_script <context.item.script.name||null>
 		  - define script <script[<[item_script]>]||null>
 		  - if <[script]> != null:
-		    - flag <player> stats_map:<map[GENERIC_ATTACK_DAMAGE=0;GENERIC_ATTACK_SPEED=0;GENERIC_MAX_HEALTH=0;GENERIC_MOVEMENT_SPEED=0;GENERIC_ARMOR=0;GENERIC_ARMOR_TOUGHNESS=0;GENERIC_ATTACK_DAMAGE=0;GENERIC_KNOCKBACK_RESISTANCE=0]>
-            - flag <player> custom_stats_map:<map[GENERIC_DEEPTH_OF_WOUND=0;METALURGIST=0;PRISTINE=0]>
-		    - wait 1s
-		    - run stats_calculation_all_slots def:<player> save:attributes
-		    - define attributes <entry[attributes].created_queue.determination.get[1]>
-		    - flag <player> stats_map:<[attributes]>
-		  - run stats_give
+		    - if <[script].data_key[data.stats]||null> != null:
+			  - if <[script].data_key[data.stats].contains[attribute_modifiers]> = true:
+		        - wait 1s
+		        - run stats_calculation_all_slots def:<player> save:attributes
+		        - define attributes <entry[attributes].created_queue.determination.get[1]>
+		        - flag <player> stats_map:<[attributes]>
+		        - run stats_give
 		on player dies:
 		  - ratelimit <player> 1t
 		  - flag <player> stats_map:<map[GENERIC_ATTACK_DAMAGE=0;GENERIC_ATTACK_SPEED=0;GENERIC_MAX_HEALTH=0;GENERIC_MOVEMENT_SPEED=0;GENERIC_ARMOR=0;GENERIC_ARMOR_TOUGHNESS=0;GENERIC_ATTACK_DAMAGE=0;GENERIC_KNOCKBACK_RESISTANCE=0]>
@@ -279,8 +279,6 @@ stats_calculation_event:
 		  - run stats_give
 		on player changes world from world to world:
 		  - ratelimit <player> 1t
-		  - flag <player> stats_map:<map[GENERIC_ATTACK_DAMAGE=0;GENERIC_ATTACK_SPEED=0;GENERIC_MAX_HEALTH=0;GENERIC_MOVEMENT_SPEED=0;GENERIC_ARMOR=0;GENERIC_ARMOR_TOUGHNESS=0;GENERIC_ATTACK_DAMAGE=0;GENERIC_KNOCKBACK_RESISTANCE=0]>
-          - flag <player> custom_stats_map:<map[GENERIC_DEEPTH_OF_WOUND=0;METALURGIST=0;PRISTINE=0]>
 		  - run stats_calculation_all_slots def:<player> save:attributes
 		  - define attributes <entry[attributes].created_queue.determination.get[1]>
 		  - flag <player> stats_map:<[attributes]>
