@@ -21,11 +21,11 @@ stats_calculation_all_slots:
 		      - if <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> != hand:
 			    - foreach next
 		  - if <[proc]> = include:
-		    - run upgrading_attribute_bonus def:<[item]>|<player>|add
-			- run upgrading_custom_attribute_bonus def:<[item]>|<player>|add
+		    - run upgrading_attribute_bonus def:<[item]>|<[player]>|add
+			- run upgrading_custom_attribute_bonus def:<[item]>|<[player]>|add
 		  - else if <[proc]> = exclude:
-		    - run upgrading_attribute_bonus def:<[item]>|<player>|sub
-			- run upgrading_custom_attribute_bonus def:<[item]>|<player>|sub
+		    - run upgrading_attribute_bonus def:<[item]>|<[player]>|sub
+			- run upgrading_custom_attribute_bonus def:<[item]>|<[player]>|sub
 		  - if <[script].data_key[data.stats].contains[attribute_modifiers]> = true:
 		    - define attributes <[script].data_key[data.stats.attribute_modifiers]>
 		    - foreach <[attributes].keys> as:attribute:
@@ -331,7 +331,7 @@ upgrading_custom_attribute_bonus:
 		  - if <[item].flag[gemstone]> != false:
 			- if <[item].flag[gemstone]> = item_ruby:
 			  - define custom_attribute_bonus <map[GENERIC_DEEPTH_OF_WOUND=2]>
-			- if <[custom_attribute_bonus]> != null && <[custom_attribute_bonus].size> = 1:
+			- if <[custom_attribute_bonus]> != null:
 			  - define attribute <[custom_attribute_bonus].keys.first>
 			  - define bonus_of_upgrading <[custom_attribute_bonus].get[<[attribute]>]>
 			  - define custom_stats_map_value <[player].flag[custom_stats_map].get[<[attribute]>]>
