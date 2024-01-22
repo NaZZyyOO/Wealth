@@ -5,9 +5,8 @@ stats_calculation_all_slots:
 	script:
 	    - define slots <list[<[player].held_item_slot>|41|37|38|39|40]>
 		- define stats_map <map[GENERIC_ATTACK_DAMAGE=0;GENERIC_ATTACK_SPEED=0;GENERIC_MAX_HEALTH=0;GENERIC_MOVEMENT_SPEED=0;GENERIC_ARMOR=0;GENERIC_ARMOR_TOUGHNESS=0;GENERIC_ATTACK_DAMAGE=0;GENERIC_KNOCKBACK_RESISTANCE=0]>
-		- define custom_stats_map_1 <map[GENERIC_DEEPTH_OF_WOUND=0;METALURGIST=0;PRISTINE=0;PHYSICAL_RES=0;FIRE_RES=0;COLD_RES=0;MAGIC_RES=0;LIGHTNING_RES=0;POISON_RES=0]>
-		- define custom_stats_map_2 <map[PHYSICAL_DAMAGE=0;FIRE_DAMAGE=0;COLD_DAMAGE=0;MAGIC_DAMAGE=0;LIGHTNING_DAMAGE=0;POISON_DAMAGE=0]>
-		- flag <[player]> custom_stats_map:<[custom_stats_map_1].include[<[custom_stats_map_2]>]>
+		- define custom_stats_map_1 <map[GENERIC_DEEPTH_OF_WOUND=0;METALURGIST=0;PRISTINE=0]>
+		- flag <[player]> custom_stats_map:<[custom_stats_map_1]>
 		- foreach <[slots]>:
 		  - if <[player].inventory.slot[<[value]>].material.name> = air:
   		    - foreach next
