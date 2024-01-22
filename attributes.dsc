@@ -78,6 +78,7 @@ stats_calculation_slot:
 			- define attribute_value <player.flag[stats_map].get[<[attribute]>]>
 		    - define attribute_value <[attribute_value].sub[<[stats_map_value]>]>
 			- define final_stats <[final_stats].as_map.with[<[attribute]>].as[<[attribute_value]>]>
+		- define final_custom_stats <map[]>
 		- if <[proc]> = include:
 		  - run upgrading_custom_attribute_bonus def:<[item]>|<player>|add
 		- else if <[proc]> = exclude:
@@ -90,11 +91,12 @@ stats_calculation_slot:
 		  - if <[proc]> = include:
 		    - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
 			- define custom_attribute_value <[custom_attribute_value].add[<[custom_stats_map_value]>]>
-			- flag <player> custom_stats_map:<player.flag[custom_stats_map].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
+			- define final_custom_stats <[final_custom_stats].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
 		  - if <[proc]> = exclude:
 		    - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
 			- define custom_attribute_value <[custom_attribute_value].sub[<[stats_map_value]>]>
-			- flag <player> custom_stats_map:<player.flag[custom_stats_map].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
+			- define final_custom_stats <[final_custom_stats].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
+		- flag <player> custom_stats_map:<[final_custom_stats]>
 		- determine <[final_stats]>
 stats_calculation_event:
     type: world
