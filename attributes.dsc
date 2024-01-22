@@ -83,19 +83,20 @@ stats_calculation_slot:
 		  - run upgrading_custom_attribute_bonus def:<[item]>|<player>|add
 		- else if <[proc]> = exclude:
 		  - run upgrading_custom_attribute_bonus def:<[item]>|<player>|sub
-	    - foreach <player.flag[custom_stats_map].keys> as:custom_attribute:
-		  - if <[custom_stats_map].contains[<[custom_attribute]>]> = true:
-		    - define custom_stats_map_value <[custom_stats_map].get[<[attribute]>]>
-		  - else:
-		    - define custom_stats_map_value <element[0]>
-		  - if <[proc]> = include:
-		    - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
-			- define custom_attribute_value <[custom_attribute_value].add[<[custom_stats_map_value]>]>
-			- define final_custom_stats <[final_custom_stats].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
-		  - if <[proc]> = exclude:
-		    - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
-			- define custom_attribute_value <[custom_attribute_value].sub[<[stats_map_value]>]>
-			- define final_custom_stats <[final_custom_stats].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
+		- if <[custom_stats_map].size> > 0:
+	      - foreach <player.flag[custom_stats_map].keys> as:custom_attribute:
+		    - if <[custom_stats_map].contains[<[custom_attribute]>]> = true:
+		      - define custom_stats_map_value <[custom_stats_map].get[<[attribute]>]>
+		    - else:
+		      - define custom_stats_map_value <element[0]>
+		    - if <[proc]> = include:
+		      - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
+			  - define custom_attribute_value <[custom_attribute_value].add[<[custom_stats_map_value]>]>
+			  - define final_custom_stats <[final_custom_stats].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
+		    - if <[proc]> = exclude:
+		      - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
+			  - define custom_attribute_value <[custom_attribute_value].sub[<[stats_map_value]>]>
+			  - define final_custom_stats <[final_custom_stats].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
 		- flag <player> custom_stats_map:<[final_custom_stats]>
 		- determine <[final_stats]>
 stats_calculation_event:
