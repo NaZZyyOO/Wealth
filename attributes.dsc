@@ -20,12 +20,8 @@ stats_calculation_all_slots:
 		    - if <[value]> = <[player].held_item_slot>:
 		      - if <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> != hand:
 			    - foreach next
-		  - if <[proc]> = include:
-		    - run upgrading_attribute_bonus def:<[item]>|<[player]>|add
-			- run upgrading_custom_attribute_bonus def:<[item]>|<[player]>|add
-		  - else if <[proc]> = exclude:
-		    - run upgrading_attribute_bonus def:<[item]>|<[player]>|sub
-			- run upgrading_custom_attribute_bonus def:<[item]>|<[player]>|sub
+		  - run upgrading_attribute_bonus def:<[item]>|<[player]>|add
+	      - run upgrading_custom_attribute_bonus def:<[item]>|<[player]>|add
 		  - if <[script].data_key[data.stats].contains[attribute_modifiers]> = true:
 		    - define attributes <[script].data_key[data.stats.attribute_modifiers]>
 		    - foreach <[attributes].keys> as:attribute:
