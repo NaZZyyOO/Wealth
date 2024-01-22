@@ -255,8 +255,6 @@ stats_calculation_event:
 			    - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
 			    - flag <player> stats_map:<[attributes_old]>
 				- run stats_give
-		  - else:
-		    - stop
 		on player picks up item:
 		  - ratelimit <player> 1t
 		  - define item_script <context.item.script.name||null>
@@ -324,8 +322,6 @@ upgrading_attribute_bonus:
 			    - define stats_map_value <[stats_map_value].sub[<[bonus_of_upgrading]>]>
 		      - define stats_map <[stats_map].as_map.with[<[attribute]>].as[<[stats_map_value]>]>
 			  - flag <[player]> stats_map:<[stats_map]>
-			- else:
-			  - stop
 upgrading_custom_attribute_bonus:
     type: task
 	debug: false
@@ -347,5 +343,3 @@ upgrading_custom_attribute_bonus:
 			    - define stats_map_value <[stats_map_value].sub[<[bonus_of_upgrading]>]>
 		      - define stats_map <[stats_map].as_map.with[<[attribute]>].as[<[stats_map_value]>]>
 			  - flag <[player]> custom_stats_map:<[stats_map]>
-			- else:
-			  - stop
