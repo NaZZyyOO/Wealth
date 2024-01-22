@@ -309,9 +309,10 @@ upgrading_attribute_bonus:
 	script:
 	    - if <[item].has_flag[gemstone]> = true:
 		  - if <[item].flag[gemstone]> != false:
+		    - define attribute_bonus <map[]>
 		    - if <[item].flag[gemstone]> = item_granat:
 			  - define attribute_bonus <map[GENERIC_ATTACK_DAMAGE=4]>
-			- if <[attribute_bonus]||null> != null:
+			- if <[attribute_bonus].size> = 1:
 			  - define stats_map <[player].flag[stats_map]>
 			  - define attribute <[attribute_bonus].keys.first>
 			  - define bonus_of_upgrading <[attribute_bonus].get[<[attribute]>]>
@@ -331,9 +332,10 @@ upgrading_custom_attribute_bonus:
 	script:
 	    - if <[item].has_flag[gemstone]> = true:
 		  - if <[item].flag[gemstone]> != false:
+		    - define custom_attribute_bonus <map[]>
 			- if <[item].flag[gemstone]> = item_ruby:
 			  - define custom_attribute_bonus <map[GENERIC_DEEPTH_OF_WOUND=2]>
-			- if <[custom_attribute_bonus]||null> != null:
+			- if <[custom_attribute_bonus].size> = 1:
 			  - define stats_map <[player].flag[custom_stats_map]>
 			  - define attribute <[custom_attribute_bonus].keys.first>
 			  - define bonus_of_upgrading <[custom_attribute_bonus].get[<[attribute]>]>
