@@ -318,7 +318,7 @@ upgrading_attribute_bonus:
 			  - if <[procedure]> = sub:
 			    - define stats_map_value <[stats_map_value].sub[<[bonus_of_upgrading]>]>
 		      - define stats_map <[stats_map].as_map.with[<[attribute]>].as[<[stats_map_value]>]>
-			  - flag <[player]> custom_stats_map:<[stats_map]>
+			  - flag <[player]> stats_map:<[stats_map]>
 upgrading_custom_attribute_bonus:
     type: task
 	debug: false
