@@ -58,7 +58,7 @@ item_grimoire_use:
                     - else:
                       - execute as_server silent "my rmmana <player.name> <[scroll_data].get[mana_cost]>"
                       - inject <[scroll_data].get[formulas]>
-                      - run <[scroll_data].get[run]> def:<[scroll_data].get[def]>
+                      - run <[scroll_data].get[run]> def:<[scroll_data].get[def].parsed>
                 - else:
                   - actionbar "<[player_cant_use_item]>"
 		on player closes inventory:
