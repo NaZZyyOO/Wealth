@@ -156,11 +156,10 @@ stats_calculation_event:
 		  - if <[script]> = null:
 		    - stop
 		  - else:
-		    - if <script[<[item_old]>].data_key[data]||null> = null:
-              - stop
-		    - run stats_calculation_slot def:<[script]>|exclude|<[item_old]> save:attributes_old
-		    - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
-			- flag <player> stats_map:<[attributes_old]>
+		    - if <script[<[item_old]>].data_key[data]||null> != null:
+		      - run stats_calculation_slot def:<[script]>|exclude|<[item_old]> save:attributes_old
+		      - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
+			  - flag <player> stats_map:<[attributes_old]>
 		  - run stats_give
 		on player scrolls their hotbar:
 		  - ratelimit <player> 1t
