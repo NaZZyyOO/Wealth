@@ -170,20 +170,18 @@ stats_calculation_event:
 		  - if <[script]> != null:
 		    - if <script[<[old_slot]>].data_key[data]||null> != null:
 		      - if <[script].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
-		        - if <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
-		          - run stats_calculation_slot def:<[script]>|exclude|<[item]> save:attributes_old
-			      - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
-			      - flag <player> stats_map:<[attributes_old]>
+		        - run stats_calculation_slot def:<[script]>|exclude|<[item]> save:attributes_old
+			    - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
+			    - flag <player> stats_map:<[attributes_old]>
 		  - define item <player.inventory.slot[<context.new_slot>]>
 		  - define new_slot <[item].script.name||null>
 		  - define script <script[<[new_slot]>]||null>
 		  - if <[script]> != null:
 		    - if <script[<[new_slot]>].data_key[data]||null> != null:
 		      - if <[script].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
-		        - if <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
-		          - run stats_calculation_slot def:<[script]>|include|<[item]> save:attributes_new
-			      - define attributes_new <entry[attributes_new].created_queue.determination.get[1]>
-			      - flag <player> stats_map:<[attributes_new]>
+		        - run stats_calculation_slot def:<[script]>|include|<[item]> save:attributes_new
+			    - define attributes_new <entry[attributes_new].created_queue.determination.get[1]>
+			    - flag <player> stats_map:<[attributes_new]>
 		  - run stats_give
 		on player swaps items:
 		  - ratelimit <player> 1t
