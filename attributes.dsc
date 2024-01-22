@@ -89,7 +89,7 @@ stats_calculation_slot:
 		    - define custom_stats_map_value <element[0]>
 		  - if <[proc]> = include:
 		    - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
-			- define custom_attribute_value <[custom_attribute_value].add[<[stats_map_value]>]>
+			- define custom_attribute_value <[custom_attribute_value].add[<[custom_stats_map_value]>]>
 			- flag <player> custom_stats_map:<player.flag[custom_stats_map].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
 		  - if <[proc]> = exclude:
 		    - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
