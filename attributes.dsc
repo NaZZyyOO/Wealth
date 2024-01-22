@@ -332,11 +332,13 @@ upgrading_custom_attribute_bonus:
 			- if <[item].flag[gemstone]> = item_ruby:
 			  - define custom_attribute_bonus <map[GENERIC_DEEPTH_OF_WOUND=2]>
 			- if <[custom_attribute_bonus]> != null:
+			  - define stats_map <[player].flag[custom_stats_map]>
 			  - define attribute <[custom_attribute_bonus].keys.first>
 			  - define bonus_of_upgrading <[custom_attribute_bonus].get[<[attribute]>]>
-			  - define custom_stats_map_value <[player].flag[custom_stats_map].get[<[attribute]>]>
+			  - define stats_map_value <[stats_map].get[<[attribute]>]>
 			  - if <[procedure]> = add:
-			    - define custom_stats_map_value <[custom_stats_map_value].add[<[bonus_of_upgrading]>]>
+		        - define stats_map_value <[stats_map_value].add[<[bonus_of_upgrading]>]>
 			  - if <[procedure]> = sub:
-			    - define custom_stats_map_value <[custom_stats_map_value].sub[<[bonus_of_upgrading]>]>
-			  - flag <[player]> custom_stats_map:<[player].flag[custom_stats_map].as_map.with[<[attribute]>].as[<[custom_stats_map_value]>
+			    - define stats_map_value <[stats_map_value].sub[<[bonus_of_upgrading]>]>
+		      - define stats_map <[stats_map].as_map.with[<[attribute]>].as[<[stats_map_value]>]>
+			  - flag <[player]> custom_stats_map:<[stats_map]>
