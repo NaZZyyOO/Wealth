@@ -26,6 +26,8 @@ stats_calculation_all_slots:
 		  - if <[script].data_key[data.stats].contains[attribute_modifiers]> = true:
 		    - define attributes <[script].data_key[data.stats.attribute_modifiers]>
 		    - foreach <[attributes].keys> as:attribute:
+			  - if <[script].data_key[data.stats].keys.contains[attribute_modifiers]> = false:
+		        - foreach next
 		      - if <[script].data_key[data.stats.attribute_modifiers.<[attribute]>.type]> = vanilla:
 		        - define attribute_value <[script].data_key[data.stats.attribute_modifiers.<[attribute]>.amount]>
 			    - define stats_map_value <[stats_map].get[<[attribute]>]>
@@ -51,6 +53,8 @@ stats_calculation_slot:
 		- define stats_map <map[]>
 		- define custom_stats_map <map[]>
 		- foreach <[attributes].keys> as:attribute:
+		  - if <[script].data_key[data.stats].keys.contains[attribute_modifiers]> = false:
+		    - foreach next
 		  - if <[script].data_key[data.stats.attribute_modifiers.<[attribute]>.type]> = vanilla:
 	        - define stats_map_value <[script].data_key[data.stats.attribute_modifiers.<[attribute]>.amount]>
 		    - define stats_map <[stats_map].as_map.with[<[attribute]>].as[<[stats_map_value]>]>

@@ -7,16 +7,19 @@ book_opens:
 		    - if <script[<player.item_in_hand.script.name>]||null> != null:
 		      - define book <script[<player.item_in_hand.script.name>].data_key[data.stats.book]>
 			  - if <[book]||null> !=  null:
+			    - determine passively cancelled
 			    - adjust <player> show_book:<[book]>_ua
 		  - if <player.locale> = ru_ru:
 		    - if <script[<player.item_in_hand.script.name>]||null> != null:
 		      - define book <script[<player.item_in_hand.script.name>].data_key[data.stats.book]>
 			  - if <[book]||null> != null:
+			    - determine passively cancelled
 			    - adjust <player> show_book:<[book]>_ru
 		  - if <player.locale> = en_es:
 		    - if <script[<player.item_in_hand.script.name>]||null> != null:
 		      - define book <script[<player.item_in_hand.script.name>].data_key[data.stats.book]>
 			  - if <[book]||null> != null:
+			    - determine passively cancelled
 			    - adjust <player> show_book:<[book]>_en
 item_book_beasts:
   type: item

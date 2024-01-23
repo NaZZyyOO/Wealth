@@ -29,7 +29,7 @@ item_spellbooks_craft:
     type: world
 	debug: false
 	events:
-	    on player right clicks !air:
+	    on player right clicks block:
 		  - if <context.location||null> = null:
 		    - stop
 		  - if <context.location.material.name> = air:
