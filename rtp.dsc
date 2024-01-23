@@ -73,16 +73,16 @@ rtp_menu_click:
   type: world
   debug: false
   events:
-      on player clicks in inventory:
-	    - if <player.open_inventory.title||null> = null:
-		  - stop
+      on player clicks item in inventory:
 	    - if <player.locale> = ru_ru:
-          - define name "Нестабильная червоточина"
+          - define name "<&l>Нестабильная червоточина"
 		- if <player.locale> = en_es:
-		  - define name "Unstable Wormhole"
+		  - define name "<&l>Unstable Wormhole"
 		- if <player.locale> = uk_ua:
-		  - define name "Нестабільна червоточина"
-        - if <context.open_inventory.title||null> = "<[name]>":
+		  - define name "<&l>Нестабільна червоточина"
+		- if <[name]||null> = null:
+		  - stop
+        - if <context.clicked_inventory.title.contains[<[name]>]> = true:
           - determine passively cancelled
           - define itemname <context.item.display.to_lowercase.replace_text[<&sp>].with[<element[_]>].strip_color||null>
           - if itemname != null:
