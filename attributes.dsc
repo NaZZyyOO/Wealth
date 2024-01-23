@@ -192,7 +192,7 @@ stats_calculation_event:
 		  - define offhand_slot <context.offhand.script.name||null>
 		  - define offhand_script <script[<[offhand_slot]>]||null>
 		  - if <[hand_script]> != null && <[offhand_script]> = null:
-		    - if <script[<[mainhand_slot]>].data_key[data]||null> = null:
+		    - if <script[<[mainhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- if <[hand_script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
 		      - if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
@@ -203,7 +203,7 @@ stats_calculation_event:
 			  - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
 		      - flag <player> stats_map:<[attributes_old]>
 		  - if <[offhand_script]> != null && <[hand_script]> = null:
-		    - if <script[<[offhand_slot]>].data_key[data]||null> = null:
+		    - if <script[<[offhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- if <[offhand_script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
 		      - if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
@@ -214,7 +214,7 @@ stats_calculation_event:
 			  - define attributes_new <entry[attributes_new].created_queue.determination.get[1]>
 			  - flag <player> stats_map:<[attributes_new]>
 		  - if <[offhand_script]> != null && <[hand_script]> != null:
-		    - if <script[<[mainhand_slot]>].data_key[data]||null> = null:
+		    - if <script[<[mainhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- if <[hand_script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
 		      - if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
@@ -224,7 +224,7 @@ stats_calculation_event:
 			  - run stats_calculation_slot def:<[hand_script]>|<[proc]>|<[mainhand]> save:attributes_old
 			  - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
 		      - flag <player> stats_map:<[attributes_old]>
-			- if <script[<[offhand_slot]>].data_key[data]||null> = null:
+			- if <script[<[offhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- if <[offhand_script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
 			  - if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
