@@ -30,7 +30,11 @@ item_spellbooks_craft:
 	debug: false
 	events:
 	    on player right clicks !air:
-		  - if <context.location.has_flag[magic_table_01]||null> = true:
+		  - if <context.location||null> = null:
+		    - stop
+		  - if <context.location.material.name> = air:
+		    - stop
+		  - if <context.location.has_flag[magic_table_01]> = true:
 		    - determine passively cancelled
 			- if <player.is_sneaking> = false:
 		      - if <context.location.has_flag[choosed_scroll]> = true:
@@ -43,8 +47,6 @@ item_spellbooks_craft:
 				  - flag <context.location> choosed_scroll:!
 			- else:
 			  - inventory open d:magic_table_inventory
-		  - else:
-		    - stop
 magic_table_choose_scroll:
     type: world
 	debug: false

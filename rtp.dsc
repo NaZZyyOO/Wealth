@@ -74,6 +74,8 @@ rtp_menu_click:
   debug: false
   events:
       on player clicks in inventory:
+	    - if <player.open_inventory.title||null> = null:
+		  - stop
 	    - if <player.locale> = ru_ru:
           - define name "Нестабильная червоточина"
 		- if <player.locale> = en_es:
