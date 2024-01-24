@@ -2,7 +2,9 @@ mystery_lvl_item_req_mechanics_check:
     type: world
 	debug: false
 	events:
-	    on player right clicks block with:!air:
+	    on player right clicks block:
+		  - if <player.item_in_hand.script.name||null> = null:
+		    - stop
 		  - if <script[<player.item_in_hand.script.name>]||null> != null:
 		    - if <script[<player.item_in_hand.script.name>].data_key[data.stats]||null> != null:
 		      - if <script[<player.item_in_hand.script.name>].data_key[data.stats].keys.contains[lvl_req]> = true:
