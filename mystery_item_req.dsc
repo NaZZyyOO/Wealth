@@ -12,7 +12,9 @@ mystery_lvl_item_req_mechanics_check:
 		        - if <placeholder[mystery_legacylevel].player[<player>]> < <[lvl_req]>:
 			      - determine passively cancelled
 	              - actionbar "<&c><&l>player_mystery_level_low <[lvl_req]>"
-		on player left clicks block with:!air:
+		on player left clicks block:
+		  - if <player.item_in_hand.script.name||null> = null:
+		    - stop
 		  - if <script[<player.item_in_hand.script.name>]||null> != null:
 		    - if <script[<player.item_in_hand.script.name>].data_key[data.stats]||null> != null:
 		      - if <script[<player.item_in_hand.script.name>].data_key[data.stats].keys.contains[lvl_req]> = true:
