@@ -194,7 +194,7 @@ stats_calculation_event:
 		  - if <[hand_script]> != null && <[offhand_script]> = null:
 		    - if <script[<[mainhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
-			- if <[hand_script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
+			- if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
 		      - if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
 		        - define proc <element[include]>
 			  - else if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
@@ -205,7 +205,7 @@ stats_calculation_event:
 		  - if <[offhand_script]> != null && <[hand_script]> = null:
 		    - if <script[<[offhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
-			- if <[offhand_script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
+			- if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
 		      - if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
 		        - define proc <element[include]>
 			  - else if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
@@ -216,7 +216,7 @@ stats_calculation_event:
 		  - if <[offhand_script]> != null && <[hand_script]> != null:
 		    - if <script[<[mainhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
-			- if <[hand_script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
+			- if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
 		      - if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
 		        - define proc <element[include]>
 			  - else if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
@@ -226,7 +226,7 @@ stats_calculation_event:
 		      - flag <player> stats_map:<[attributes_old]>
 			- if <script[<[offhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
-			- if <[offhand_script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
+			- if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
 			  - if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
 		        - define proc <element[include]>
 			  - else if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
