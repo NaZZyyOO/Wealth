@@ -45,9 +45,10 @@ server_loottable_mechanics:
 		- if <[script].data_key[<[value]>].contains[weight]> = false:
 	      - if <util.random.decimal[0].to[100]> < <[final_chance]>:
 		    - define item <item[<[value]>]>
+			- define item <[item].proc[item_generate]>
 			- if <[item].max_durability||null> != null: 
 			  - define item <[item].with[durability=<util.random.int[1].to[<material[<[item].max_durability>]>]> 
-            - drop <[item].proc[item_generate]> quantity:<util.random.int[<[random_item_min_quantity]>].to[<[random_item_max_quantity]>]> <[loc]>
+            - drop <[item]> quantity:<util.random.int[<[random_item_min_quantity]>].to[<[random_item_max_quantity]>]> <[loc]>
 		- if <[script].data_key[<[value]>].contains[weight]> = true:
           - define type_random <[type_random].with[<[value]>].as[<[final_chance]>]>
 	# Випадіння лише одного предмету зі списку
@@ -59,7 +60,8 @@ server_loottable_mechanics:
 	    - define final_chance <[script].data_key[<[value]>.chance]> 
 	    - if <util.random.decimal[0].to[100]> <= <[final_chance]>:
 		  - define item <item[<[value]>]>
-	      - drop <[item].proc[item_generate]> <[loc]> quantity:<util.random.int[<[random_item_min_quantity]>].to[<[random_item_max_quantity]>]>
+	      - define item <[item].proc[item_generate]>
+	      - drop <[item]> <[loc]> quantity:<util.random.int[<[random_item_min_quantity]>].to[<[random_item_max_quantity]>]>
 		  - stop
 custom_drop_event:
     type: world
