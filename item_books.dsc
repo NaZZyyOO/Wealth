@@ -3,23 +3,23 @@ book_opens:
 	debug: false
 	events:
 	    on player right clicks block with:written_book:
+		  - if <player.item_in_hand.script.name||null> = null:
+		    - stop
+		  - determine passively cancelled
 		  - if <player.locale> = uk_ua:
 		    - if <script[<player.item_in_hand.script.name>]||null> != null:
 		      - define book <script[<player.item_in_hand.script.name>].data_key[data.stats.book]>
 			  - if <[book]||null> !=  null:
-			    - determine passively cancelled
 			    - adjust <player> show_book:<[book]>_ua
 		  - if <player.locale> = ru_ru:
 		    - if <script[<player.item_in_hand.script.name>]||null> != null:
 		      - define book <script[<player.item_in_hand.script.name>].data_key[data.stats.book]>
 			  - if <[book]||null> != null:
-			    - determine passively cancelled
 			    - adjust <player> show_book:<[book]>_ru
 		  - if <player.locale> = en_es:
 		    - if <script[<player.item_in_hand.script.name>]||null> != null:
 		      - define book <script[<player.item_in_hand.script.name>].data_key[data.stats.book]>
 			  - if <[book]||null> != null:
-			    - determine passively cancelled
 			    - adjust <player> show_book:<[book]>_en
 item_book_beasts:
   type: item
