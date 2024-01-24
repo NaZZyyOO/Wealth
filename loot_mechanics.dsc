@@ -45,7 +45,7 @@ server_loottable_mechanics:
 		- if <[script].data_key[<[value]>].contains[weight]> = false:
 	      - if <util.random.decimal[0].to[100]> < <[final_chance]>:
 		    - define item <item[<[value]>]>
-			- define item <[item].proc[item_generate]>
+			- define item <[item].proc[item_generate].parsed>
 			- if <[item].max_durability||null> != null: 
 			  - define item <[item].with[durability=<util.random.int[1].to[<material[<[item].max_durability>]>]> 
             - drop <[item]> quantity:<util.random.int[<[random_item_min_quantity]>].to[<[random_item_max_quantity]>]> <[loc]>
@@ -60,7 +60,7 @@ server_loottable_mechanics:
 	    - define final_chance <[script].data_key[<[value]>.chance]> 
 	    - if <util.random.decimal[0].to[100]> <= <[final_chance]>:
 		  - define item <item[<[value]>]>
-	      - define item <[item].proc[item_generate]>
+	      - define item <[item].proc[item_generate].parsed>
 	      - drop <[item]> <[loc]> quantity:<util.random.int[<[random_item_min_quantity]>].to[<[random_item_max_quantity]>]>
 		  - stop
 custom_drop_event:
