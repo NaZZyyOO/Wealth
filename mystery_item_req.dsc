@@ -32,6 +32,10 @@ mystery_lvl_item_req_mechanics_check:
 			            - determine passively cancelled
 				        - inventory close
 	    on player swaps items:
+		  - if <context.offhand.material.name> = air:
+		    - stop
+		  - if <context.main.material.name> = air:
+		    - stop
 		  - if <context.offhand||null> != null && <context.main||null> != null:
 		    - if <script[<context.offhand.script.name>]||null> != null:
 		      - if <script[<context.offhand.script.name>].data_key[data.stats]||null> != null:
