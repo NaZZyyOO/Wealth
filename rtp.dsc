@@ -82,6 +82,8 @@ rtp_menu_click:
 		  - define name "<&l>Нестабільна червоточина"
 		- if <[name]||null> = null:
 		  - stop
+		- if <context.clicked_inventory||null> = null:
+		  - stop
         - if <context.clicked_inventory.title.contains[<[name]>]> = true:
           - determine passively cancelled
           - define itemname <context.item.display.to_lowercase.replace_text[<&sp>].with[<element[_]>].strip_color||null>
