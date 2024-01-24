@@ -5,6 +5,8 @@ book_opens:
 	    on player right clicks block:
 		  - if <player.item_in_hand.script.name||null> = null:
 		    - stop
+		  - if <script[<player.item_in_hand.script.name>].data_key[data.stats.book]||null> = null:
+		    - stop
 		  - if <player.locale> = uk_ua:
 		    - if <script[<player.item_in_hand.script.name>]||null> != null:
 		      - define book <script[<player.item_in_hand.script.name>].data_key[data.stats.book].parsed>
