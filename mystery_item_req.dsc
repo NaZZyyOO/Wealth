@@ -32,30 +32,33 @@ mystery_lvl_item_req_mechanics_check:
 			            - determine passively cancelled
 				        - inventory close
 	    on player swaps items:
-		  - if <context.offhand.material.name> = air:
-		    - stop
-		  - if <context.main.material.name> = air:
-		    - stop
-		  - if <context.offhand||null> != null && <context.main||null> != null:
-		    - if <script[<context.offhand.script.name>]||null> != null:
-		      - if <script[<context.offhand.script.name>].data_key[data.stats]||null> != null:
-		        - if <script[<context.offhand.script.name>].data_key[data.stats].keys.contains[lvl_req]> = true:
-		          - define lvl_req <script[<context.offhand.script.name>].data_key[data.stats.lvl_req]>
-		          - if <placeholder[mystery_legacylevel].player[<player>]> < <[lvl_req]>:
-			        - actionbar "<&c><&l>player_mystery_level_low <[lvl_req]>"
-			        - determine passively cancelled
-		  - else:
-		    - stop
-		  - if <context.offhand||null> != null:
-		    - if <script[<context.offhand.script.name>]||null> != null:
-		      - if <script[<context.offhand.script.name>].data_key[data.stats]||null> != null:
-		        - if <script[<context.offhand.script.name>].data_key[data.stats].keys.contains[lvl_req]> = true:
-		          - define lvl_req <script[<context.offhand.script.name>].data_key[data.stats.lvl_req]>
-		          - if <placeholder[mystery_legacylevel].player[<player>]> < <[lvl_req]>:
-			        - actionbar "<&c><&l>player_mystery_level_low <[lvl_req]>"
-			        - determine passively cancelled
-		  - else:
-		    - stop
+		  - if <context.offhand.material.name> != air && <context.main.material.name> != air:
+		    - if <context.offhand||null> != null && <context.main||null> != null:
+		      - if <script[<context.main.script.name>]||null> != null:
+		        - if <script[<context.main.script.name>].data_key[data.stats]||null> != null:
+		          - if <script[<context.main.script.name>].data_key[data.stats].keys.contains[lvl_req]> = true:
+		            - define lvl_req <script[<context.main.script.name>].data_key[data.stats.lvl_req]>
+		            - if <placeholder[mystery_legacylevel].player[<player>]> < <[lvl_req]>:
+			          - actionbar "<&c><&l>player_mystery_level_low <[lvl_req]>"
+			          - determine passively cancelled
+		  - if <context.offhand.material.name> = air && <context.main.material.name> != air:
+		    - if <context.main||null> != null:
+		      - if <script[<context.main.script.name>]||null> != null:
+		        - if <script[<context.main.script.name>].data_key[data.stats]||null> != null:
+		          - if <script[<context.main.script.name>].data_key[data.stats].keys.contains[lvl_req]> = true:
+		            - define lvl_req <script[<context.main.script.name>].data_key[data.stats.lvl_req]>
+		            - if <placeholder[mystery_legacylevel].player[<player>]> < <[lvl_req]>:
+			          - actionbar "<&c><&l>player_mystery_level_low <[lvl_req]>"
+			          - determine passively cancelled
+		  - if <context.offhand.material.name> != air && <context.main.material.name> = air:
+		    - if <context.offhand||null> != null:
+		      - if <script[<context.offhand.script.name>]||null> != null:
+		        - if <script[<context.offhand.script.name>].data_key[data.stats]||null> != null:
+		          - if <script[<context.offhand.script.name>].data_key[data.stats].keys.contains[lvl_req]> = true:
+		            - define lvl_req <script[<context.offhand.script.name>].data_key[data.stats.lvl_req]>
+		            - if <placeholder[mystery_legacylevel].player[<player>]> < <[lvl_req]>:
+			          - actionbar "<&c><&l>player_mystery_level_low <[lvl_req]>"
+			          - determine passively cancelled
 	    on player equips item:
 		  - if <script[<context.new_item.script.name>]||null> != null:
 		    - if <script[<context.new_item.script.name>].data_key[data.stats]||null> != null:
