@@ -107,9 +107,11 @@ stats_calculation_event:
 	events:
 		on player !CONTROL_DROP clicks item in inventory:
 		  - ratelimit <player> 1t
+		  - define c_item <context.item>
 		  - define item <context.item.script.name||null>
 		  - define proc <element[exclude]>
 		  - if <[item]> = null:
+		    - define c_item <context.cursor_item>
 			- define item <context.cursor_item.script.name||null>
 			- define proc <element[include]>
 		  - define script <script[<[item]>]||null>
@@ -122,7 +124,7 @@ stats_calculation_event:
 			  - else:
 			    - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
 				  - if <script[<[item]>].data_key[data.stats.attribute_modifiers.<script[<[item]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
-		            - run stats_calculation_slot def:<[script]>|<[proc]>|<[item]> save:attributes
+		            - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
 	                - define attributes <entry[attributes].created_queue.determination.get[1]>
 		            - flag <player> stats_map:<[attributes]>
 			- if <element[41]> = <context.slot>:
