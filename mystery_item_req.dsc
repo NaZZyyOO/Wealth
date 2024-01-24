@@ -1,4 +1,4 @@
-mystery_lvl_item_req_mechanics_check:
+mystery_lvl_item_req_mechanics:
     type: world
 	debug: false
 	events:
@@ -22,7 +22,7 @@ mystery_lvl_item_req_mechanics_check:
 		        - if <placeholder[mystery_legacylevel].player[<player>]> < <[lvl_req]>:
 			      - determine passively cancelled
 	              - actionbar "<&c><&l>player_mystery_level_low <[lvl_req]>"
-		on player !CONTROL_DROP clicks !air in inventory:
+		on player !CONTROL_DROP clicks item in inventory:
 		  - if <context.action> = PLACE_ALL:
 		    - if <context.slot> = 41:
 		      - if <context.cursor_item||null> != null:
