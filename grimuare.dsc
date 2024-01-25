@@ -45,7 +45,7 @@ item_grimoire_use:
 			  - stop
 			- if <player.flag[active_scroll]> = 0:
 			  - stop
-			- if <player.flag[grimoire].contains[<player.flag[active_scroll]>]> = true && <script[<player.flag[grimoire].get[<player.flag[active_scroll]>]>]||null> != null:
+			- if <player.flag[grimoire].keys.contains[<player.flag[active_scroll]>]> = true:
 		      - define scroll <player.flag[grimoire].get[<player.flag[active_scroll]>].script.name>
 		      - define scroll_data <script[<[scroll]>].data_key[data.stats]>
 		      - if <[scroll_data].contains[magic_scroll]> = true:
