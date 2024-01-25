@@ -115,7 +115,7 @@ stats_calculation_event:
 			- define item <context.cursor_item.script.name||null>
 			- define proc <element[include]>
 		  - define script <script[<[item]>]||null>
-		  - if <script[<[item]>].data_key[data]||null> = null:
+		  - if <script[<[item]>].data_key[data.stats]||null> = null:
             - stop		  
 		  - if <player.is_online> = true:
 		    - if <player.held_item_slot> = <context.slot>:
@@ -123,7 +123,7 @@ stats_calculation_event:
 			    - stop
 			  - else:
 			    - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
-				  - define slot <script[<[item]>].data_key[data.stats.attribute_modifiers.<script[<[item]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
+				  - define slot <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
 				  - if <[slot].lenght> > 4:
 				    - if <[slot].contains[mainhand]> = true || <[slot].contains[offhand]> = true:
 		              - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
@@ -146,6 +146,9 @@ stats_calculation_event:
 			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
+		  - if <context.action> = HOTBAR_MOVE_AND_READD:
+		    - if <context.slot> = <player.held_item_slot>:
+			  - determine passively cancelled
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
@@ -197,10 +200,10 @@ stats_calculation_event:
 		  - define mainhand <context.main>
 		  - define offhand <context.offhand>
 		  - define mainhand_slot <context.main.script.name||null>
-		  - define hand_script <script[<[mainhand_slot]>]>
+		  - define hand_script <script[<[mainhand_slot]>]||null>
 		  - define offhand_slot <context.offhand.script.name||null>
-		  - define offhand_script <script[<[offhand_slot]>]>
-		  - if <[hand_script]||null> != null && <[offhand_script]||null> = null:
+		  - define offhand_script <script[<[offhand_slot]>]||null>
+		  - if <[hand_script]> != null && <[offhand_script]> = null:
 		    - if <script[<[mainhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- define a_slot_hand <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
@@ -212,7 +215,7 @@ stats_calculation_event:
 			  - run stats_calculation_slot def:<[hand_script]>|<[proc]>|<[mainhand]> save:attributes_old
 			  - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
 		      - flag <player> stats_map:<[attributes_old]>
-		  - if <[offhand_script]||null> != null && <[hand_script]||null> = null:
+		  - if <[offhand_script]> != null && <[hand_script]> = null:
 		    - if <script[<[offhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- define a_slot_offhand <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
@@ -224,7 +227,7 @@ stats_calculation_event:
 			  - run stats_calculation_slot def:<[offhand_script]>|<[proc]>|<[offhand]> save:attributes_new
 			  - define attributes_new <entry[attributes_new].created_queue.determination.get[1]>
 			  - flag <player> stats_map:<[attributes_new]>
-		  - if <[offhand_script]||null> != null && <[hand_script]||null> != null:
+		  - if <[offhand_script]> != null && <[hand_script]> != null:
 		    - if <script[<[mainhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- define a_slot_hand <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
