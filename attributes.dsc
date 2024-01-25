@@ -150,10 +150,9 @@ stats_calculation_event:
 			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
-		  - if <context.action> = HOTBAR_MOVE_AND_READD:
-            - determine passively cancelled
-		  - if <context.action> = HOTBAR_SWAP:
-		    - determine passively cancelled
+		  - if <player.open_inventoty||null> != null:
+		    - if <context.action> = HOTBAR_SWAP || <context.action> = HOTBAR_MOVE_AND_READD:
+		      - determine passively cancelled
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
