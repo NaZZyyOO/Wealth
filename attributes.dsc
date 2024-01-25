@@ -105,7 +105,7 @@ stats_calculation_event:
     type: world
 	debug: false
 	events:
-		on player !CONTROL_DROP clicks in inventory:
+		on player !CONTROL_DROP clicks item in inventory:
 		  - ratelimit <player> 1t
 		  - define c_item <context.item>
 		  - define item <context.item.script.name||null>
@@ -144,14 +144,21 @@ stats_calculation_event:
 	                - define attributes <entry[attributes].created_queue.determination.get[1]>
 		            - flag <player> stats_map:<[attributes]>
 			- if <context.action> = HOTBAR_SWAP:
-			  - run stats_calculation_all_slots def:<player> save:attributes
-		      - define attributes <entry[attributes].created_queue.determination.get[1]>
-		      - flag <player> stats_map:<[attributes]>
+			  - if <context.hotbar_button> = <player.held_item_slot>:
+			    - run stats_calculation_all_slots def:<player> save:attributes
+		        - define attributes <entry[attributes].created_queue.determination.get[1]>
+		        - flag <player> stats_map:<[attributes]>
 			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
-		  - if <context.action> = HOTBAR_MOVE_AND_READD:
-			- determine passively cancelled
+		  - if <context.action> = MOVE_TO_OTHER_INVENTORY:
+		    - if <context.slot> = <player.held_item_slot>:
+			  - run stats_calculation_all_slots def:<player> save:attributes
+		      - define attributes <entry[attributes].created_queue.determination.get[1]>
+		      - flag <player> stats_map:<[attributes]>
+		  - if <player.open_inventory||null> != null:
+		    - if <context.action> = HOTBAR_SWAP:
+			  - determine passively cancelled
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
