@@ -134,7 +134,7 @@ stats_calculation_event:
 				      - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
 	                  - define attributes <entry[attributes].created_queue.determination.get[1]>
 		              - flag <player> stats_map:<[attributes]>
-			- if <element[41]> = <context.slot>:
+			- if <context.slot> = 41:
 			  - if <[script]> = null:
 			    - stop
 			  - else:
@@ -144,13 +144,16 @@ stats_calculation_event:
 	                - define attributes <entry[attributes].created_queue.determination.get[1]>
 		            - flag <player> stats_map:<[attributes]>
 			- if <context.action> = HOTBAR_SWAP:
-			  - if <context.click> = HUMBER_KEY:
+			  - if <context.hotbar_button> = <player.held_item_slot>:
 			    - run stats_calculation_all_slots def:<player> save:attributes
 		        - define attributes <entry[attributes].created_queue.determination.get[1]>
 		        - flag <player> stats_map:<[attributes]>
 			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
+		  - if <player.open_inventory||null> != null:
+		    - if <context.action> = HOTBAR_MOVE_AND_READD:
+			  - determine passively cancelled
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
