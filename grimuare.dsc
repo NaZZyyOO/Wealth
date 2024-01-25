@@ -45,11 +45,11 @@ item_grimoire_use:
 			  - stop
 			- if <player.flag[active_scroll]> = 0:
 			  - stop
-		    - define scroll <player.flag[grimoire].get[<player.flag[active_scroll]>].script.name>
-		    - define scroll_data <script[<[scroll]>].data_key[data.stats]>
-		    - if <[scroll_data].contains[magic_scroll]> = true:
-              - if <player.has_flag[gcd]> = false:
-			    - if <script[<player.flag[grimoire].get[<player.flag[active_scroll]>]>]||null> != null:
+			- if <script[<player.flag[grimoire].get[<player.flag[active_scroll]>]>]||null> != null:
+		      - define scroll <player.flag[grimoire].get[<player.flag[active_scroll]>].script.name>
+		      - define scroll_data <script[<[scroll]>].data_key[data.stats]>
+		      - if <[scroll_data].contains[magic_scroll]> = true:
+                - if <player.has_flag[gcd]> = false:
                   - if <placeholder[mystery_legacy].player[<player>]> = <[scroll_data].get[magic_scroll]>:
 			        - determine passively cancelled
                     - flag <player> gcd duration:1s
@@ -62,8 +62,8 @@ item_grimoire_use:
                         - run <[scroll_data].get[run]> def:<[scroll_data].get[def].parsed>
                   - else:
                     - actionbar "<&c><&l>player_cant_use_item"
-				- else:
-				  - actionbar "Empty" targets:<player>
+			- else:
+	   	      - actionbar "Empty" targets:<player>
 		on player closes inventory:
           - if <player.open_inventory.script.name||null> = grimoire_active_inv:
             - define container <player.open_inventory.map_slots>

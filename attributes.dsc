@@ -198,10 +198,10 @@ stats_calculation_event:
 		  - define offhand <context.offhand>
 		  - define mainhand_slot <context.main.script.name||null>
 		  - define hand_script <script[<[mainhand_slot]>]||null>
-		  - define a_slot_hand <[<[hand_script]>].data_key[data.stats.attribute_modifiers.<[<[hand_script]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
+		  - define a_slot_hand <[hand_script].data_key[data.stats.attribute_modifiers.<[<[hand_script]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
 		  - define offhand_slot <context.offhand.script.name||null>
 		  - define offhand_script <script[<[offhand_slot]>]||null>
-		  - define a_slot_offhand <[<[offhand_script]>].data_key[data.stats.attribute_modifiers.<[<[offhand_script]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
+		  - define a_slot_offhand <[offhand_script].data_key[data.stats.attribute_modifiers.<[<[offhand_script]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
 		  - if <[hand_script]> != null && <[offhand_script]> = null:
 		    - if <script[<[mainhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
