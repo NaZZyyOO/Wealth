@@ -143,22 +143,13 @@ stats_calculation_event:
 		            - run stats_calculation_slot def:<[script]>|<[proc]> save:attributes
 	                - define attributes <entry[attributes].created_queue.determination.get[1]>
 		            - flag <player> stats_map:<[attributes]>
-			- if <context.action> = HOTBAR_SWAP:
-			  - if <context.hotbar_button> = <player.held_item_slot>:
-			    - run stats_calculation_all_slots def:<player> save:attributes
-		        - define attributes <entry[attributes].created_queue.determination.get[1]>
-		        - flag <player> stats_map:<[attributes]>
 			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
 		  - if <context.action> = MOVE_TO_OTHER_INVENTORY:
-		    - if <context.slot> = <player.held_item_slot>:
-			  - run stats_calculation_all_slots def:<player> save:attributes
-		      - define attributes <entry[attributes].created_queue.determination.get[1]>
-		      - flag <player> stats_map:<[attributes]>
-		  - if <player.open_inventory||null> != null:
-		    - if <context.action> = HOTBAR_SWAP:
-			  - determine passively cancelled
+            - determine passively cancelled
+		  - if <context.action> = HOTBAR_SWAP:
+		    - determine passively cancelled
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
