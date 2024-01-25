@@ -123,10 +123,17 @@ stats_calculation_event:
 			    - stop
 			  - else:
 			    - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
-				  - if <script[<[item]>].data_key[data.stats.attribute_modifiers.<script[<[item]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
-		            - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
-	                - define attributes <entry[attributes].created_queue.determination.get[1]>
-		            - flag <player> stats_map:<[attributes]>
+				  - define slot <script[<[item]>].data_key[data.stats.attribute_modifiers.<script[<[item]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
+				  - if <[slot].lenght> > 4:
+				    - if <[slot].contains[mainhand]> = true || <[slot].contains[offhand]> = true:
+		              - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
+	                  - define attributes <entry[attributes].created_queue.determination.get[1]>
+		              - flag <player> stats_map:<[attributes]>
+				  - else if <[slot].lenght> = 4:
+				    - if <[slot].contains[hand]> = true:
+				      - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
+	                  - define attributes <entry[attributes].created_queue.determination.get[1]>
+		              - flag <player> stats_map:<[attributes]>
 			- if <element[41]> = <context.slot>:
 			  - if <[script]> = null:
 			    - stop
@@ -191,15 +198,17 @@ stats_calculation_event:
 		  - define offhand <context.offhand>
 		  - define mainhand_slot <context.main.script.name||null>
 		  - define hand_script <script[<[mainhand_slot]>]||null>
+		  - define a_slot_hand <[<[hand_script]>].data_key[data.stats.attribute_modifiers.<[<[hand_script]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
 		  - define offhand_slot <context.offhand.script.name||null>
 		  - define offhand_script <script[<[offhand_slot]>]||null>
+		  - define a_slot_offhand <[<[offhand_script]>].data_key[data.stats.attribute_modifiers.<[<[offhand_script]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
 		  - if <[hand_script]> != null && <[offhand_script]> = null:
 		    - if <script[<[mainhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
-		      - if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
+		      - if ( <[a_slot_hand].lenght> = 4 && <[a_slot_hand].contains[hand]> = true ) || <[a_slot_hand].lenght> > 4 && <[a_slot_hand].contains[mainhand]> = true ):
 		        - define proc <element[include]>
-			  - else if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
+			  - else if <[a_slot_hand].contains[offhand]> = true:
 			    - define proc <element[exclude]>
 			  - run stats_calculation_slot def:<[hand_script]>|<[proc]>|<[mainhand]> save:attributes_old
 			  - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
@@ -208,9 +217,9 @@ stats_calculation_event:
 		    - if <script[<[offhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
-		      - if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
+		      - if <[a_slot_offhand].contains[offhand]> = true:
 		        - define proc <element[include]>
-			  - else if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
+			  - else if ( <[a_slot_offhand].lenght> = 4 && <[a_slot_offhand].contains[hand]> = true ) || <[a_slot_offhand].lenght> > 4 && <[a_slot_offhand].contains[mainhand]> = true ):
 			    - define proc <element[exclude]>
 			  - run stats_calculation_slot def:<[offhand_script]>|<[proc]>|<[offhand]> save:attributes_new
 			  - define attributes_new <entry[attributes_new].created_queue.determination.get[1]>
@@ -219,9 +228,9 @@ stats_calculation_event:
 		    - if <script[<[mainhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
-		      - if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
+		      - if ( <[a_slot_hand].lenght> = 4 && <[a_slot_hand].contains[hand]> = true ) || <[a_slot_hand].lenght> > 4 && <[a_slot_hand].contains[mainhand]> = true ):
 		        - define proc <element[include]>
-			  - else if <[hand_script].data_key[data.stats.attribute_modifiers.<[hand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
+			  - else if <[a_slot_hand].contains[offhand]> = true:
 			    - define proc <element[exclude]>
 			  - run stats_calculation_slot def:<[hand_script]>|<[proc]>|<[mainhand]> save:attributes_old
 			  - define attributes_old <entry[attributes_old].created_queue.determination.get[1]>
@@ -229,9 +238,9 @@ stats_calculation_event:
 			- if <script[<[offhand_slot]>].data_key[data.stats.attribute_modifiers]||null> = null:
               - stop
 			- if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
-			  - if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
+			  - if <[a_slot_offhand].contains[offhand]> = true:
 		        - define proc <element[include]>
-			  - else if <[offhand_script].data_key[data.stats.attribute_modifiers.<[offhand_script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = hand:
+			  - else if ( <[a_slot_offhand].lenght> = 4 && <[a_slot_offhand].contains[hand]> = true ) || <[a_slot_offhand].lenght> > 4 && <[a_slot_offhand].contains[mainhand]> = true ):
 			    - define proc <element[exclude]>
 			  - run stats_calculation_slot def:<[offhand_script]>|<[proc]>|<[offhand]> save:attributes_new
 			  - define attributes_new <entry[attributes_new].created_queue.determination.get[1]>

@@ -49,18 +49,21 @@ item_grimoire_use:
 		    - define scroll_data <script[<[scroll]>].data_key[data.stats]>
 		    - if <[scroll_data].contains[magic_scroll]> = true:
               - if <player.has_flag[gcd]> = false:
-                - if <placeholder[mystery_legacy].player[<player>]> = <[scroll_data].get[magic_scroll]>:
-			      - determine passively cancelled
-                  - flag <player> gcd duration:1s
-                  - if <player.is_sneaking> != true:
-                    - if <placeholder[mystery_mana].player[<player>].is_less_than[<[scroll_data].get[mana_cost]>]> = true:
-                      - actionbar  "<[player_mana_isnt_enought]> <[scroll_data].get[mana_cost]>."
-                    - else:
-                      - execute as_server silent "my rmmana <player.name> <[scroll_data].get[mana_cost]>"
-                      - inject <[scroll_data].get[formulas]>
-                      - run <[scroll_data].get[run]> def:<[scroll_data].get[def].parsed>
-                - else:
-                  - actionbar "<[player_cant_use_item]>"
+			    - if <script[<player.flag[grimoire].get[<player.flag[active_scroll]>]>]||null> != null:
+                  - if <placeholder[mystery_legacy].player[<player>]> = <[scroll_data].get[magic_scroll]>:
+			        - determine passively cancelled
+                    - flag <player> gcd duration:1s
+                    - if <player.is_sneaking> != true:
+                      - if <placeholder[mystery_mana].player[<player>].is_less_than[<[scroll_data].get[mana_cost]>]> = true:
+                        - actionbar  "<&c><&l>player_mana_isnt_enought <[scroll_data].get[mana_cost]>."
+                      - else:
+                        - execute as_server silent "my rmmana <player.name> <[scroll_data].get[mana_cost]>"
+                        - inject <[scroll_data].get[formulas]>
+                        - run <[scroll_data].get[run]> def:<[scroll_data].get[def].parsed>
+                  - else:
+                    - actionbar "<&c><&l>player_cant_use_item"
+				- else:
+				  - actionbar "Empty" targets:<player>
 		on player closes inventory:
           - if <player.open_inventory.script.name||null> = grimoire_active_inv:
             - define container <player.open_inventory.map_slots>
