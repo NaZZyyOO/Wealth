@@ -143,10 +143,14 @@ stats_calculation_event:
 		            - run stats_calculation_slot def:<[script]>|<[proc]> save:attributes
 	                - define attributes <entry[attributes].created_queue.determination.get[1]>
 		            - flag <player> stats_map:<[attributes]>
+			- if <context.action> = MOVE_TO_OTHER_INVENTORY:
+			  - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
+			  - define attributes <entry[attributes].created_queue.determination.get[1]>
+		      - flag <player> stats_map:<[attributes]>
 			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
-		  - if <context.action> = MOVE_TO_OTHER_INVENTORY:
+		  - if <context.action> = HOTBAR_MOVE_AND_READD:
             - determine passively cancelled
 		  - if <context.action> = HOTBAR_SWAP:
 		    - determine passively cancelled
