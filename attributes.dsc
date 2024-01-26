@@ -119,7 +119,7 @@ stats_calculation_event:
 		    - if <[item]> = null:
 		      - define c_item <context.cursor_item>
 			  - define item <context.cursor_item.script.name||null>
-			  - define proc <element[include]>
+			  - define proc <element[exclude]>
 		  - define script <script[<[item]>]||null>
 		  - if <script[<[item]>].data_key[data.stats]||null> = null:
             - stop
