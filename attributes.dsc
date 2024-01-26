@@ -112,10 +112,7 @@ stats_calculation_event:
 		      - define c_item <context.cursor_item>
 			  - define item <context.cursor_item.script.name||null>
 			  - define proc <element[include]>
-		  - define script <script[<[item]>]||null>
-		  - if <script[<[item]>].data_key[data.stats]||null> = null:
-            - stop
-		  - if ( <context.click_type> = SHIFT_LEFT || <context.click_type> = SHIFT_RIGHT ) && ( <context.action> = PICKUP_SOME || <context.action> = PLACE_SOME ):
+		  - if ( <context.click> = SHIFT_LEFT || <context.click> = SHIFT_RIGHT ) && ( <context.action> = PICKUP_SOME || <context.action> = PLACE_SOME ):
 		    - define c_item <context.item>
 		    - define item <context.item.script.name||null>
 		    - define proc <element[include]>
@@ -123,6 +120,9 @@ stats_calculation_event:
 		      - define c_item <context.cursor_item>
 			  - define item <context.cursor_item.script.name||null>
 			  - define proc <element[include]>
+		  - define script <script[<[item]>]||null>
+		  - if <script[<[item]>].data_key[data.stats]||null> = null:
+            - stop
 		  - if <player.is_online> = true:
 			- if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
 		      - define slot <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
