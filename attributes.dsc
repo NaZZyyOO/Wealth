@@ -52,6 +52,13 @@ stats_calculation_slot:
 		  - stop
 		- define stats_map <map[]>
 		- define custom_stats_map <map[]>
+		- define final_stats <map[]>
+		- if <[proc]> = include:
+		  - run upgrading_attribute_bonus def:<[item]>|<player>|add
+		  - run upgrading_custom_attribute_bonus def:<[item]>|<player>|add
+		- else if <[proc]> = exclude:
+		  - run upgrading_attribute_bonus def:<[item]>|<player>|sub
+		  - run upgrading_custom_attribute_bonus def:<[item]>|<player>|sub
 		- foreach <[attributes].keys> as:attribute:
 		  - if <[script].data_key[data.stats].keys.contains[attribute_modifiers]> = false:
 		    - foreach next
@@ -61,11 +68,6 @@ stats_calculation_slot:
 		  - if <[script].data_key[data.stats.attribute_modifiers.<[attribute]>.type]> = custom:
 	        - define custom_stats_map_value <[script].data_key[data.stats.attribute_modifiers.<[attribute]>.amount]>
 		    - define custom_stats_map <[custom_stats_map].as_map.with[<[attribute]>].as[<[custom_stats_map_value]>]>
-		- define final_stats <map[]>
-		- if <[proc]> = include:
-		  - run upgrading_attribute_bonus def:<[item]>|<player>|add
-		- else if <[proc]> = exclude:
-		  - run upgrading_attribute_bonus def:<[item]>|<player>|sub
 		- foreach <player.flag[stats_map].keys> as:attribute:
 		  - if <[stats_map].contains[<[attribute]>]> = true:
 		    - define stats_map_value <[stats_map].get[<[attribute]>]>
@@ -79,27 +81,22 @@ stats_calculation_slot:
 			- define attribute_value <player.flag[stats_map].get[<[attribute]>]>
 		    - define attribute_value <[attribute_value].sub[<[stats_map_value]>]>
 			- define final_stats <[final_stats].as_map.with[<[attribute]>].as[<[attribute_value]>]>
-		- if <[proc]> = include:
-		  - run upgrading_custom_attribute_bonus def:<[item]>|<player>|add
-		- else if <[proc]> = exclude:
-		  - run upgrading_custom_attribute_bonus def:<[item]>|<player>|sub
-		- if <[custom_stats_map].size> > 0:
-	      - foreach <player.flag[custom_stats_map].keys> as:custom_attribute:
-		    - if <[custom_stats_map].contains[<[custom_attribute]>]> = true:
-		      - define custom_stats_map_value <[custom_stats_map].get[<[attribute]>]>
-		    - else:
-		      - define custom_stats_map_value <element[0]>
-			- define final_custom_stats <player.flag[custom_stats_map]>
-		    - if <[proc]> = include:
-		      - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
-			  - define custom_attribute_value <[custom_attribute_value].add[<[custom_stats_map_value]>]>
-			  - define final_custom_stats <[final_custom_stats].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
-			  - flag <player> custom_stats_map:<[final_custom_stats]>
-		    - if <[proc]> = exclude:
-		      - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
-			  - define custom_attribute_value <[custom_attribute_value].sub[<[stats_map_value]>]>
-			  - define final_custom_stats <[final_custom_stats].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
-		      - flag <player> custom_stats_map:<[final_custom_stats]>
+	    - foreach <player.flag[custom_stats_map].keys> as:custom_attribute:
+		  - if <[custom_stats_map].contains[<[custom_attribute]>]> = true:
+		    - define custom_stats_map_value <[custom_stats_map].get[<[attribute]>]>
+		  - else:
+		    - define custom_stats_map_value <element[0]>
+	      - define final_custom_stats <player.flag[custom_stats_map]>
+		  - if <[proc]> = include:
+		    - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
+	        - define custom_attribute_value <[custom_attribute_value].add[<[custom_stats_map_value]>]>
+	        - define final_custom_stats <[final_custom_stats].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
+			- flag <player> custom_stats_map:<[final_custom_stats]>
+		  - if <[proc]> = exclude:
+		    - define custom_attribute_value <player.flag[custom_stats_map].get[<[custom_attribute]>]>
+			- define custom_attribute_value <[custom_attribute_value].sub[<[stats_map_value]>]>
+		    - define final_custom_stats <[final_custom_stats].as_map.with[<[custom_attribute]>].as[<[custom_attribute_value]>]>
+		    - flag <player> custom_stats_map:<[final_custom_stats]>
 		- determine <[final_stats]>
 stats_calculation_event:
     type: world
@@ -107,33 +104,38 @@ stats_calculation_event:
 	events:
 		on player !CONTROL_DROP clicks item in inventory:
 		  - ratelimit <player> 1t
-		  - define c_item <context.item>
-		  - define item <context.item.script.name||null>
-		  - define proc <element[exclude]>
-		  - if <[item]> = null:
-		    - define c_item <context.cursor_item>
-			- define item <context.cursor_item.script.name||null>
-			- define proc <element[include]>
+		  - if <player.held_item_slot> = <context.slot>:
+		    - define c_item <context.item>
+		    - define item <context.item.script.name||null>
+		    - define proc <element[exclude]>
+		    - if <[item]> = null:
+		      - define c_item <context.cursor_item>
+			  - define item <context.cursor_item.script.name||null>
+			  - define proc <element[include]>
 		  - define script <script[<[item]>]||null>
 		  - if <script[<[item]>].data_key[data.stats]||null> = null:
-            - stop		  
+            - stop
+		  - if ( <context.click_type> = SHIFT_LEFT || <context.click_type> = SHIFT_RIGHT ) && ( <context.action> = PICKUP_SOME || <context.action> = PLACE_SOME ):
+		    - define c_item <context.item>
+		    - define item <context.item.script.name||null>
+		    - define proc <element[include]>
+		    - if <[item]> = null:
+		      - define c_item <context.cursor_item>
+			  - define item <context.cursor_item.script.name||null>
+			  - define proc <element[include]>
 		  - if <player.is_online> = true:
-		    - if <player.held_item_slot> = <context.slot>:
-			  - if <[script]> = null:
-			    - stop
-			  - else:
-			    - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
-				  - define slot <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
-				  - if <[slot].length> > 4:
-				    - if <[slot].contains_text[mainhand]> = true || <[slot].contains_text[offhand]> = true:
-		              - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
-	                  - define attributes <entry[attributes].created_queue.determination.get[1]>
-		              - flag <player> stats_map:<[attributes]>
-				  - else if <[slot].length> = 4:
-				    - if <[slot].contains_text[hand]> = true:
-				      - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
-	                  - define attributes <entry[attributes].created_queue.determination.get[1]>
-		              - flag <player> stats_map:<[attributes]>
+			- if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
+		      - define slot <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
+		      - if <[slot].length> > 4:
+				- if <[slot].contains_text[mainhand]> = true || <[slot].contains_text[offhand]> = true:
+		          - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
+	              - define attributes <entry[attributes].created_queue.determination.get[1]>
+		          - flag <player> stats_map:<[attributes]>
+		      - else if <[slot].length> = 4:
+				- if <[slot].contains_text[hand]> = true:
+				  - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
+	              - define attributes <entry[attributes].created_queue.determination.get[1]>
+		          - flag <player> stats_map:<[attributes]>
 			- if <context.slot> = 41:
 			  - if <[script]> = null:
 			    - stop
@@ -143,15 +145,16 @@ stats_calculation_event:
 		            - run stats_calculation_slot def:<[script]>|<[proc]> save:attributes
 	                - define attributes <entry[attributes].created_queue.determination.get[1]>
 		            - flag <player> stats_map:<[attributes]>
-			- if <context.action> = MOVE_TO_OTHER_INVENTORY:
-			  - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
-			  - define attributes <entry[attributes].created_queue.determination.get[1]>
-		      - flag <player> stats_map:<[attributes]>
+			- if <context.action> = HOTBAR_SWAP:
+			  - if <context.hotbar_button> = <player.held_item_slot>:
+			    - run stats_calculation_all_slots def:<player> save:attributes
+		        - define attributes <entry[attributes].created_queue.determination.get[1]>
+		        - flag <player> stats_map:<[attributes]>
 			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
-		  - if <player.open_inventoty||null> != null:
-		    - if <context.action> = HOTBAR_SWAP || <context.action> = HOTBAR_MOVE_AND_READD:
+		  - if <context.action> = HOTBAR_SWAP || <context.action> = HOTBAR_MOVE_AND_READD:
+		    - if <context.clicked_inventory> != <context.inventory>:			
 		      - determine passively cancelled
 		on player equips item:
 		  - ratelimit <player> 1t
