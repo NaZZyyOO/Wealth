@@ -19,8 +19,13 @@ stats_calculation_all_slots:
 		  - if <[script].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
 		    - if <[value]> = <[player].held_item_slot>:
 			  - if <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>].keys.contains[slot]> = true:
-		        - if <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]> != hand:
-			      - foreach next
+		        - define slot <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
+				- if <[slot].length> > 4:
+				  - if <[slot].contains_text[mainhand]> != true:
+				    - foreach next
+				- else if <[slot].length> = 4:
+				  - if <[slot].contains_text[hand]> != true:
+				    - foreach next
 		  - run upgrading_attribute_bonus def:<[item]>|<[player]>|add
 	      - run upgrading_custom_attribute_bonus def:<[item]>|<[player]>|add
 		  - if <[script].data_key[data.stats].contains[attribute_modifiers]> = true:
@@ -106,26 +111,15 @@ stats_calculation_event:
 		  - ratelimit <player> 1t
 		  - define c_item <context.item>
 		  - define item <context.item.script.name||null>
-		  - define proc <element[exclude]>
 		  - if <[item]> = null:
 		    - define c_item <context.cursor_item>
 			- define item <context.cursor_item.script.name||null>
-			- define proc <element[include]>
 		  - define script <script[<[item]>]||null>
 		  - if <script[<[item]>].data_key[data.stats]||null> != null:
 			- if <[script]> != null:
-			  - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
-				- define slot <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
-				- if <[slot].length> > 4:
-				  - if <[slot].contains_text[mainhand]> = true || <[slot].contains_text[offhand]> = true:
-		            - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
-	                - define attributes <entry[attributes].created_queue.determination.get[1]>
-		            - flag <player> stats_map:<[attributes]>
-				- else if <[slot].length> = 4:
-				  - if <[slot].contains_text[hand]> = true:
-				    - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
-	                - define attributes <entry[attributes].created_queue.determination.get[1]>
-		            - flag <player> stats_map:<[attributes]>
+		      - run stats_calculation_all_slots def:<player> save:attributes
+		      - define attributes <entry[attributes].created_queue.determination.get[1]>
+		      - flag <player> stats_map:<[attributes]>
 			- if <context.slot> = 41:
 			  - if <[script]> != null:
 			    - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
