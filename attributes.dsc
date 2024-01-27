@@ -142,6 +142,15 @@ stats_calculation_event:
 			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
+	    on player !CONTROL_DROP clicks in inventory:
+		  - narrate <context.item||null>
+		  - narrate <context.cursor_item||null>
+		  - narrate <context.inventory||null>
+		  - narrate <context.clicked_inventory||null>
+		  - narrate <context.click||null>
+		  - narrate <context.slot||null>
+		  - narrate <context.action||null>
+		  - narrate <context.hotbar_button||null>
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
