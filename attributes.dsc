@@ -109,7 +109,7 @@ stats_calculation_event:
 	events:
 		on player !CONTROL_DROP clicks in inventory:
 		  - ratelimit <player> 1t
-		  - if <context.action> = PICKUP_HALF:
+		  - if <context.action> = PICKUP_HALF || <context.action> = PICKUP_ALL || <context.action> = PICKUP_ONE:
 		    - if <player.inventory> = <context.clicked_inventory>:
 			  - if <context.slot.equals[<player.held_item_slot>]> = true && <context.hotbar_button> = 0:
 		        - define c_item <context.item>
@@ -138,8 +138,7 @@ stats_calculation_event:
 			      - run stats_calculation_slot def:<[s_item]>|exclude|<[c_item]> save:attributes
 	              - define attributes <entry[attributes].created_queue.determination.get[1]>
 		          - flag <player> stats_map:<[attributes]>
-			  - else:
-			    - if <context.hotbar_button.equals[<player.held_item_slot>]> = false && <context.slot.equals[<player.held_item_slot>]> = true:
+			  - else if <context.hotbar_button.equals[<player.held_item_slot>]> = false && <context.slot.equals[<player.held_item_slot>]> = true:
 				- define c_item <player.inventory.slot[<context.slot>]>
 				- if <context.item||null> != null:
 				  - define c_item <context.item>
