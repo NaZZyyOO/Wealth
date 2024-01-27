@@ -134,13 +134,13 @@ stats_calculation_event:
 		            - run stats_calculation_slot def:<[script]>|<[proc]> save:attributes
 	                - define attributes <entry[attributes].created_queue.determination.get[1]>
 		            - flag <player> stats_map:<[attributes]>
-			- if <context.action> = HOTBAR_SWAP:
-			  - run stats_calculation_all_slots def:<player> save:attributes
-		      - define attributes <entry[attributes].created_queue.determination.get[1]>
-		      - flag <player> stats_map:<[attributes]>
-			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
+	    on item moves from inventory to inventory:
+		  - if <context.initiator||null> != null:
+		    - run stats_calculation_all_slots def:<context.initiator> save:attributes
+		    - define attributes <entry[attributes].created_queue.determination.get[1]>
+		    - flag <player> stats_map:<[attributes]>
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
