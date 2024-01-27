@@ -118,7 +118,7 @@ stats_calculation_event:
 			- define proc <element[include]>
 		  - define script <script[<[item]>]||null>
 		  - if <script[<[item]>].data_key[data.stats]||null> != null:
-		    - if <player.held_item_slot> = <context.slot>:
+		    - if <player.held_item_slot.equals[<context.slot>]> = true && <context.clicked_inventoty> = <player.inventory>:
 			  - if <[script]> != null:
 			    - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
 				  - define slot <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
