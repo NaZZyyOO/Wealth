@@ -130,23 +130,29 @@ stats_calculation_event:
 		  - if <context.action> = HOTBAR_SWAP:
 		    - if <player.inventory> = <context.clicked_inventory>:
 			  - if <context.hotbar_button.equals[<player.held_item_slot>]> = true && <context.slot.equals[<player.held_item_slot>]> = false:
-				- if <context.item||null> != null:
-				  - define c_item <context.item||null>
-				- else:
-				  - define c_item <player.inventory.slot[<context.slot>]||null>
-				- define s_item <script[<[c_item].script.name>]||null>
+				- define c_item_1 <player.inventory.slot[<context.slot>]||null>
+				- define c_item_2 <player.inventory.slot[<context.hotbar_button>]||null>
+				- define s_item <script[<[c_item_1].script.name>]||null>
 				- if <[s_item]> != null:
-			      - run stats_calculation_slot def:<[s_item]>|exclude|<[c_item]> save:attributes
+			      - run stats_calculation_slot def:<[s_item]>|exclude|<[c_item_1]> save:attributes
+	              - define attributes <entry[attributes].created_queue.determination.get[1]>
+		          - flag <player> stats_map:<[attributes]>
+				- define s_item <script[<[c_item_2].script.name>]||null>
+				- if <[s_item]> != null:
+			      - run stats_calculation_slot def:<[s_item]>|include|<[c_item_2]> save:attributes
 	              - define attributes <entry[attributes].created_queue.determination.get[1]>
 		          - flag <player> stats_map:<[attributes]>
 			  - else if <context.hotbar_button.equals[<player.held_item_slot>]> = false && <context.slot.equals[<player.held_item_slot>]> = true:
-				- if <context.item||null> != null:
-				  - define c_item <context.item||null>
-				- else:
-				  - define c_item <player.inventory.slot[<context.slot>]||null>
-				- define s_item <script[<[c_item].script.name>]||null>
+				- define c_item_1 <player.inventory.slot[<context.slot>]||null>
+				- define c_item_2 <player.inventory.slot[<context.hotbar_button>]||null>
+				- define s_item <script[<[c_item_1].script.name>]||null>
 				- if <[s_item]> != null:
-			      - run stats_calculation_slot def:<[s_item]>|include|<[c_item]> save:attributes
+			      - run stats_calculation_slot def:<[s_item]>|exclude|<[c_item_1]> save:attributes
+	              - define attributes <entry[attributes].created_queue.determination.get[1]>
+		          - flag <player> stats_map:<[attributes]>
+				- define s_item <script[<[c_item_2].script.name>]||null>
+				- if <[s_item]> != null:
+			      - run stats_calculation_slot def:<[s_item]>|include|<[c_item_2]> save:attributes
 	              - define attributes <entry[attributes].created_queue.determination.get[1]>
 		          - flag <player> stats_map:<[attributes]>
 		    - else if <context.inventory> = <context.clicked_inventory>:
