@@ -130,7 +130,7 @@ stats_calculation_event:
 		  - if <context.action> = HOTBAR_SWAP:
 		    - if <player.inventory> = <context.clicked_inventory>:
 			  - if <context.hotbar_button.equals[<player.held_item_slot>]> = true && <context.slot.equals[<player.held_item_slot>]> = false:
-				- define c_item <player.inventory.slot[<player.held_item_slot>]>
+				- define c_item <player.inventory.slot[<context.slot>]>
 				- if <context.item||null> != null:
 				  - define c_item <context.item>
 				- define s_item <script[<[c_item].script.name>]>
@@ -150,7 +150,7 @@ stats_calculation_event:
 		    - else if <context.inventory> = <context.clicked_inventory>:
 			  - if <context.hotbar_button.equals[<player.held_item_slot>]> = true:
 			    - if <context.item||null> != null:
-				  - define c_item <context.item>
+				  - define c_item <context.inventory.slot[<context.slot>]>
 			      - define s_item <script[<context.item.script.name>]||null>
 			      - if <[s_item]> != null:
 			        - run stats_calculation_slot def:<[s_item]>|include|<[c_item]> save:attributes
