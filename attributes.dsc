@@ -109,26 +109,9 @@ stats_calculation_event:
 	events:
 		on player !CONTROL_DROP clicks item in inventory:
 		  - ratelimit <player> 1t
-		  - define c_item <context.item>
-		  - define item <context.item.script.name||null>
-		  - if <[item]> = null:
-		    - define c_item <context.cursor_item>
-			- define item <context.cursor_item.script.name||null>
-		  - define script <script[<[item]>]||null>
-		  - if <script[<[item]>].data_key[data.stats]||null> != null:
-			- if <[script]> != null:
-		      - run stats_calculation_all_slots def:<player> save:attributes
-		      - define attributes <entry[attributes].created_queue.determination.get[1]>
-		      - flag <player> stats_map:<[attributes]>
-			- if <context.slot> = 41:
-			  - if <[script]> != null:
-			    - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
-				  - if <script[<[item]>].data_key[data.stats.attribute_modifiers.<script[<[item]>].data_key[data.stats.attribute_modifiers].keys.first>.slot]> = offhand:
-		            - run stats_calculation_slot def:<[script]>|<[proc]> save:attributes
-	                - define attributes <entry[attributes].created_queue.determination.get[1]>
-		            - flag <player> stats_map:<[attributes]>
-		  - if <context.click> = SWAP_OFFHAND:
-		    - determine passively cancelled
+		  - run stats_calculation_all_slots def:<player> save:attributes
+		  - define attributes <entry[attributes].created_queue.determination.get[1]>
+		  - flag <player> stats_map:<[attributes]>
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
