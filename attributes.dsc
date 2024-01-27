@@ -142,18 +142,18 @@ stats_calculation_event:
 		            - flag <player> stats_map:<[attributes]>
 			- if <context.action> = HOTBAR_SWAP:
 		      - if <context.hotbar_button> != 0 && <context.hotbar_button.equals[<player.held_item_slot>]> = true:
-		        - define hotbar_slot <player.inventory.slot[<context.hotbar_button>]||null>
+			    - define context_slot <player.open_inventory.slot[<context.slot>]>
+			    - define script <script[<[context_slot].script.name>]>
+			    - define proc <element[exclude]>
+				- if <[script]> != null:
+			      - run stats_calculation_slot def:<[script]>|<[proc]>|<[context_slot]> save:attributes
+	              - define attributes <entry[attributes].created_queue.determination.get[1]>
+	              - flag <player> stats_map:<[attributes]>
+				- define hotbar_slot <player.inventory.slot[<context.hotbar_button>]||air>
 			    - define script <script[<[hotbar_slot].script.name>]||null>
 			    - define proc <element[exclude]>
 				- if <[script]> != null:
 			      - run stats_calculation_slot def:<[script]>|<[proc]>|<[hotbar_slot]> save:attributes
-	              - define attributes <entry[attributes].created_queue.determination.get[1]>
-	              - flag <player> stats_map:<[attributes]>
-			    - define context_slot <player.open_inventory.slot[<context.slot>]>
-			    - define script <script[<[context_slot].script.name>]>
-			    - define proc <element[include]>
-				- if <[script]> != null:
-			      - run stats_calculation_slot def:<[script]>|<[proc]>|<[context_slot]> save:attributes
 	              - define attributes <entry[attributes].created_queue.determination.get[1]>
 	              - flag <player> stats_map:<[attributes]>
 			- run stats_give
