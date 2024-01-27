@@ -135,7 +135,7 @@ stats_calculation_event:
 				  - define c_item <context.item||null>
 				- define s_item <script[<[c_item].script.name>]||null>
 				- if <[s_item]> != null:
-			      - run stats_calculation_slot def:<[s_item]>|exclude|<[c_item]> save:attributes
+			      - run stats_calculation_slot def:<[s_item]>|include|<[c_item]> save:attributes
 	              - define attributes <entry[attributes].created_queue.determination.get[1]>
 		          - flag <player> stats_map:<[attributes]>
 			  - else if <context.hotbar_button.equals[<player.held_item_slot>]> = false && <context.slot.equals[<player.held_item_slot>]> = true:
@@ -144,7 +144,7 @@ stats_calculation_event:
 				  - define c_item <context.item||null>
 				- define s_item <script[<[c_item].script.name>]||null>
 				- if <[s_item]> != null:
-			      - run stats_calculation_slot def:<[s_item]>|include|<[c_item]> save:attributes
+			      - run stats_calculation_slot def:<[s_item]>|exclude|<[c_item]> save:attributes
 	              - define attributes <entry[attributes].created_queue.determination.get[1]>
 		          - flag <player> stats_map:<[attributes]>
 		    - else if <context.inventory> = <context.clicked_inventory>:
