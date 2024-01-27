@@ -112,6 +112,7 @@ stats_calculation_event:
 		  - run stats_calculation_all_slots def:<player> save:attributes
 		  - define attributes <entry[attributes].created_queue.determination.get[1]>
 		  - flag <player> stats_map:<[attributes]>
+		  - run stats_give
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
