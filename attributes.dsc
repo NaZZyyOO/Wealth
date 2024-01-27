@@ -115,7 +115,7 @@ stats_calculation_event:
 		  - if <script[<[item]>].data_key[data.stats]||null> = null:
             - stop		  
 		  - if <player.is_online> = true:
-		    - if <player.held_item_slot> = <context.slot> && ( <context.action> = PICKUP_SOME || <context.action> = PLACE_SOME ):
+		    - if <player.held_item_slot> = <context.slot>:
 			  - if <[script]> = null:
 			    - stop
 			  - else:
@@ -140,25 +140,21 @@ stats_calculation_event:
 		            - run stats_calculation_slot def:<[script]>|<[proc]> save:attributes
 	                - define attributes <entry[attributes].created_queue.determination.get[1]>
 		            - flag <player> stats_map:<[attributes]>
-			- if <context.action> = HOTBAR_SWAP:
-		      - if <context.hotbar_button> != 0 && <context.hotbar_button.equals[<player.held_item_slot>]> = true:
-			    - define context_slot <player.open_inventory.slot[<context.slot>]>
-			    - define script <script[<[context_slot].script.name>]>
-			    - define proc <element[exclude]>
-				- if <[script]> != null:
-			      - run stats_calculation_slot def:<[script]>|<[proc]>|<[context_slot]> save:attributes
-	              - define attributes <entry[attributes].created_queue.determination.get[1]>
-	              - flag <player> stats_map:<[attributes]>
-				- define hotbar_slot <player.inventory.slot[<context.hotbar_button>]||air>
-			    - define script <script[<[hotbar_slot].script.name>]||null>
-			    - define proc <element[exclude]>
-				- if <[script]> != null:
-			      - run stats_calculation_slot def:<[script]>|<[proc]>|<[hotbar_slot]> save:attributes
-	              - define attributes <entry[attributes].created_queue.determination.get[1]>
-	              - flag <player> stats_map:<[attributes]>
+			- if <context.action> = MOVE_TO_OTHER_INVENTORY:
+			  - define script <script[<context.item.script.name>]||null>
+			  - define proc <element[exclude]>
+			  - define c_item <context.item>
+			  - if <[script]> != null:
+			    - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
+			    - define attributes <entry[attributes].created_queue.determination.get[1]>
+		        - flag <player> stats_map:<[attributes]>
 			- run stats_give
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
+		  - if <player.open_inventoty||null> != null:
+		    - if <context.action> = HOTBAR_SWAP || <context.action> = HOTBAR_MOVE_AND_READD:
+			  - if <context.clicked_inventory> != <player.inventory>:
+		        - determine passively cancelled
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
