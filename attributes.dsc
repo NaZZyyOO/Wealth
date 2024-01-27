@@ -109,10 +109,17 @@ stats_calculation_event:
 	events:
 		on player !CONTROL_DROP clicks item in inventory:
 		  - ratelimit <player> 1t
-		  - run stats_calculation_all_slots def:<player> save:attributes
-		  - define attributes <entry[attributes].created_queue.determination.get[1]>
-		  - flag <player> stats_map:<[attributes]>
-		  - run stats_give
+		  - define itm <context.item>
+		  - define item <context.item.script.name>
+		  - if <[itm]||null> = null:
+		    - define itm <context.cursor_item>
+			- define item <context.cursor_item>
+		  - define script <script[<[item]>]||null>
+		  - if <[script]> != null:
+		    - run stats_calculation_all_slots def:<player> save:attributes
+		    - define attributes <entry[attributes].created_queue.determination.get[1]>
+		    - flag <player> stats_map:<[attributes]>
+		    - run stats_give
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
