@@ -107,11 +107,11 @@ stats_calculation_event:
     type: world
 	debug: false
 	events:
-		on player !CONTROL_DROP clicks in inventory:
+		after player clicks in inventory:
 		  - ratelimit <player> 1t
 		  - if <context.action> = PICKUP_HALF || <context.action> = PICKUP_ALL || <context.action> = PICKUP_ONE:
 		    - if <player.inventory> = <context.clicked_inventory>:
-			  - if <context.slot.equals[<player.held_item_slot>]> = true && <context.hotbar_button> = 0:
+			  - if <context.slot> = <player.held_item_slot> && <context.hotbar_button> = 0:
 		        - define c_item <context.item>
 			    - define s_item <script[<context.item.script.name>]||null>
 			    - if <[s_item]> != null:
@@ -120,7 +120,7 @@ stats_calculation_event:
 		          - flag <player> stats_map:<[attributes]>
 		  - if <context.action> = PLACE_ALL || <context.action> = PLACE_ONE || <context.action> = PLACE_SOME:
 		    - if <player.inventory> = <context.clicked_inventory>:
-			  - if <context.slot.equals[<player.held_item_slot>]> = true && <context.hotbar_button> = 0:
+			  - if <context.slot> = <player.held_item_slot> && <context.hotbar_button> = 0:
 		        - define c_item <context.cursor_item>
 			    - define s_item <script[<context.cursor_item.script.name>]||null>
 			    - if <[s_item]> != null:
