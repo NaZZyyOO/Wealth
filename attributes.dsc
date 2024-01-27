@@ -130,7 +130,7 @@ stats_calculation_event:
 		  - if <context.action> = HOTBAR_SWAP:
 		    - if <player.inventory> = <context.clicked_inventory>:
 			  - if <context.hotbar_button.equals[<player.held_item_slot>]> = true && <context.slot.equals[<player.held_item_slot>]> = false:
-				- define c_item <player.inventory.slot[<player.held_item_slot>]>
+				- define c_item <player.inventory.slot[<context.hotbar_button>]>
 				- if <context.item||null> != null:
 				  - define c_item <context.item>
 				- define s_item <script[<[c_item].script.name>]>
@@ -139,7 +139,7 @@ stats_calculation_event:
 	              - define attributes <entry[attributes].created_queue.determination.get[1]>
 		          - flag <player> stats_map:<[attributes]>
 			  - else if <context.hotbar_button.equals[<player.held_item_slot>]> = false && <context.slot.equals[<player.held_item_slot>]> = true:
-				- define c_item <player.inventory.slot[<player.held_item_slot>]>
+				- define c_item <player.inventory.slot[<context.hotbar_button>]>
 				- if <context.item||null> != null:
 				  - define c_item <context.item>
 				- define s_item <script[<[c_item].script.name>]>
