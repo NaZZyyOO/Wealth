@@ -113,20 +113,19 @@ stats_calculation_event:
 			- define proc <element[include]>
 		  - define script <script[<[item]>]||null>
 		  - if <script[<[item]>].data_key[data.stats]||null> != null:
-		    - if <player.held_item_slot> = <context.slot>:
-			  - if <[script]> != null:
-			    - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
-				  - define slot <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
-				  - if <[slot].length> > 4:
-				    - if <[slot].contains_text[mainhand]> = true || <[slot].contains_text[offhand]> = true:
-		              - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
-	                  - define attributes <entry[attributes].created_queue.determination.get[1]>
-		              - flag <player> stats_map:<[attributes]>
-				  - else if <[slot].length> = 4:
-				    - if <[slot].contains_text[hand]> = true:
-				      - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
-	                  - define attributes <entry[attributes].created_queue.determination.get[1]>
-		              - flag <player> stats_map:<[attributes]>
+			- if <[script]> != null:
+			  - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
+				- define slot <[script].data_key[data.stats.attribute_modifiers.<[script].data_key[data.stats.attribute_modifiers].keys.first>.slot]>
+				- if <[slot].length> > 4:
+				  - if <[slot].contains_text[mainhand]> = true || <[slot].contains_text[offhand]> = true:
+		            - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
+	                - define attributes <entry[attributes].created_queue.determination.get[1]>
+		            - flag <player> stats_map:<[attributes]>
+				- else if <[slot].length> = 4:
+				  - if <[slot].contains_text[hand]> = true:
+				    - run stats_calculation_slot def:<[script]>|<[proc]>|<[c_item]> save:attributes
+	                - define attributes <entry[attributes].created_queue.determination.get[1]>
+		            - flag <player> stats_map:<[attributes]>
 			- if <context.slot> = 41:
 			  - if <[script]> != null:
 			    - if <script[<[item]>].data_key[data.stats].keys.contains[attribute_modifiers]> = true:
@@ -136,11 +135,6 @@ stats_calculation_event:
 		            - flag <player> stats_map:<[attributes]>
 		  - if <context.click> = SWAP_OFFHAND:
 		    - determine passively cancelled
-	    on item moves from inventory to inventory:
-		  - if <context.initiator||null> != null:
-		    - run stats_calculation_all_slots def:<context.initiator> save:attributes
-		    - define attributes <entry[attributes].created_queue.determination.get[1]>
-		    - flag <player> stats_map:<[attributes]>
 		on player equips item:
 		  - ratelimit <player> 1t
 		  - define item_new <context.new_item.script.name||null>
